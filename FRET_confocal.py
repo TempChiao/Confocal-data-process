@@ -9,13 +9,16 @@ Created on Wed Feb 21 12:26:33 2024
 import numpy as np
 import random
 import matplotlib.pyplot as plt
+import csv
 
 #where to work
 path = 'D:/20240223_CE/10_10_2930/'
 root = '488'
 # how many files were collected
 file_numbers=10
+# please input the aquisition rate
 frequency = 1000
+# please input how long each file last
 aquisition_time = 30
 # please put in how long in seconds do you want to visualise the data
 display_range = 5 
@@ -104,6 +107,16 @@ start,end = generate_random_range()
 
 negative_green_list = [-x for x in green_data[start:end]]
 plt.figure(figsize=(18, 6))
-plt.xlabel('*100us')
+plt.xlabel(str(display_range)+'s')
 plt.plot(range(start,end),negative_green_list, color = 'green')
 plt.plot(range(start,end),red_data[start:end], color = 'red')
+plt.savefig(path+root+'_'+str(display_range)+'s_preview.png')
+
+head = ['Red threshold','Green threshold','Red events','Green events']
+body =[ [red_threshold,green_threshold,red_count,green_count]]
+csv_file = path+root+'number_of_events.csv'
+with open (csv_file, 'a', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow(head)
+    writer.writerows(body)
+# if change between a and w will have different effect on the spreadsheet.
